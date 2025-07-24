@@ -20,9 +20,16 @@ const itemsSchema = {
 const Item = mongoose.model("Item", itemsSchema);
 
 // --- Rutas de la Aplicación ---
+const instanceHostname = process.env.INSTANCE_HOSTNAME || 'Servidor Desconocido';
+
 app.get("/", function(req, res) {
   Item.find({}, function(err, foundItems) {
-    res.render("index", { listTitle: "Hoy", newListItems: foundItems });
+    // Añade el hostname al objeto que se envía a la plantilla
+    res.render("index", {
+      listTitle: "Hoy",
+      newListItems: foundItems,
+      hostname: instanceHostname
+    });
   });
 });
 
